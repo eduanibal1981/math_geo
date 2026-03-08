@@ -234,6 +234,18 @@ mixin _$CompassState {
   /// The currently selected color for the drawing pen.
   Color get penColor => throw _privateConstructorUsedError;
 
+  /// The currently selected thickness for the drawing pen.
+  double get penWidth => throw _privateConstructorUsedError;
+
+  /// Whether the app is in pencil freehand drawing mode.
+  bool get isPencilMode => throw _privateConstructorUsedError;
+
+  /// Whether the app is in straight line drawing mode (horizontal/vertical).
+  bool get isLineMode => throw _privateConstructorUsedError;
+
+  /// Whether the app is in free angle straight line drawing mode.
+  bool get isFreeLineMode => throw _privateConstructorUsedError;
+
   /// Create a copy of CompassState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -258,6 +270,10 @@ abstract class $CompassStateCopyWith<$Res> {
     List<DrawnStroke> undoneStrokes,
     DrawnStroke? currentStroke,
     Color penColor,
+    double penWidth,
+    bool isPencilMode,
+    bool isLineMode,
+    bool isFreeLineMode,
   });
 
   $DrawnStrokeCopyWith<$Res>? get currentStroke;
@@ -287,6 +303,10 @@ class _$CompassStateCopyWithImpl<$Res, $Val extends CompassState>
     Object? undoneStrokes = null,
     Object? currentStroke = freezed,
     Object? penColor = null,
+    Object? penWidth = null,
+    Object? isPencilMode = null,
+    Object? isLineMode = null,
+    Object? isFreeLineMode = null,
   }) {
     return _then(
       _value.copyWith(
@@ -326,6 +346,22 @@ class _$CompassStateCopyWithImpl<$Res, $Val extends CompassState>
                 ? _value.penColor
                 : penColor // ignore: cast_nullable_to_non_nullable
                       as Color,
+            penWidth: null == penWidth
+                ? _value.penWidth
+                : penWidth // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isPencilMode: null == isPencilMode
+                ? _value.isPencilMode
+                : isPencilMode // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isLineMode: null == isLineMode
+                ? _value.isLineMode
+                : isLineMode // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            isFreeLineMode: null == isFreeLineMode
+                ? _value.isFreeLineMode
+                : isFreeLineMode // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -365,6 +401,10 @@ abstract class _$$CompassStateImplCopyWith<$Res>
     List<DrawnStroke> undoneStrokes,
     DrawnStroke? currentStroke,
     Color penColor,
+    double penWidth,
+    bool isPencilMode,
+    bool isLineMode,
+    bool isFreeLineMode,
   });
 
   @override
@@ -394,6 +434,10 @@ class __$$CompassStateImplCopyWithImpl<$Res>
     Object? undoneStrokes = null,
     Object? currentStroke = freezed,
     Object? penColor = null,
+    Object? penWidth = null,
+    Object? isPencilMode = null,
+    Object? isLineMode = null,
+    Object? isFreeLineMode = null,
   }) {
     return _then(
       _$CompassStateImpl(
@@ -433,6 +477,22 @@ class __$$CompassStateImplCopyWithImpl<$Res>
             ? _value.penColor
             : penColor // ignore: cast_nullable_to_non_nullable
                   as Color,
+        penWidth: null == penWidth
+            ? _value.penWidth
+            : penWidth // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isPencilMode: null == isPencilMode
+            ? _value.isPencilMode
+            : isPencilMode // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isLineMode: null == isLineMode
+            ? _value.isLineMode
+            : isLineMode // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        isFreeLineMode: null == isFreeLineMode
+            ? _value.isFreeLineMode
+            : isFreeLineMode // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -451,6 +511,10 @@ class _$CompassStateImpl implements _CompassState {
     final List<DrawnStroke> undoneStrokes = const [],
     this.currentStroke,
     this.penColor = Colors.black,
+    this.penWidth = 2.0,
+    this.isPencilMode = false,
+    this.isLineMode = false,
+    this.isFreeLineMode = false,
   }) : _completedStrokes = completedStrokes,
        _undoneStrokes = undoneStrokes;
 
@@ -510,9 +574,29 @@ class _$CompassStateImpl implements _CompassState {
   @JsonKey()
   final Color penColor;
 
+  /// The currently selected thickness for the drawing pen.
+  @override
+  @JsonKey()
+  final double penWidth;
+
+  /// Whether the app is in pencil freehand drawing mode.
+  @override
+  @JsonKey()
+  final bool isPencilMode;
+
+  /// Whether the app is in straight line drawing mode (horizontal/vertical).
+  @override
+  @JsonKey()
+  final bool isLineMode;
+
+  /// Whether the app is in free angle straight line drawing mode.
+  @override
+  @JsonKey()
+  final bool isFreeLineMode;
+
   @override
   String toString() {
-    return 'CompassState(pinPoint: $pinPoint, radius: $radius, toolScale: $toolScale, angle: $angle, isDrawing: $isDrawing, completedStrokes: $completedStrokes, undoneStrokes: $undoneStrokes, currentStroke: $currentStroke, penColor: $penColor)';
+    return 'CompassState(pinPoint: $pinPoint, radius: $radius, toolScale: $toolScale, angle: $angle, isDrawing: $isDrawing, completedStrokes: $completedStrokes, undoneStrokes: $undoneStrokes, currentStroke: $currentStroke, penColor: $penColor, penWidth: $penWidth, isPencilMode: $isPencilMode, isLineMode: $isLineMode, isFreeLineMode: $isFreeLineMode)';
   }
 
   @override
@@ -539,7 +623,15 @@ class _$CompassStateImpl implements _CompassState {
             (identical(other.currentStroke, currentStroke) ||
                 other.currentStroke == currentStroke) &&
             (identical(other.penColor, penColor) ||
-                other.penColor == penColor));
+                other.penColor == penColor) &&
+            (identical(other.penWidth, penWidth) ||
+                other.penWidth == penWidth) &&
+            (identical(other.isPencilMode, isPencilMode) ||
+                other.isPencilMode == isPencilMode) &&
+            (identical(other.isLineMode, isLineMode) ||
+                other.isLineMode == isLineMode) &&
+            (identical(other.isFreeLineMode, isFreeLineMode) ||
+                other.isFreeLineMode == isFreeLineMode));
   }
 
   @override
@@ -554,6 +646,10 @@ class _$CompassStateImpl implements _CompassState {
     const DeepCollectionEquality().hash(_undoneStrokes),
     currentStroke,
     penColor,
+    penWidth,
+    isPencilMode,
+    isLineMode,
+    isFreeLineMode,
   );
 
   /// Create a copy of CompassState
@@ -576,6 +672,10 @@ abstract class _CompassState implements CompassState {
     final List<DrawnStroke> undoneStrokes,
     final DrawnStroke? currentStroke,
     final Color penColor,
+    final double penWidth,
+    final bool isPencilMode,
+    final bool isLineMode,
+    final bool isFreeLineMode,
   }) = _$CompassStateImpl;
 
   /// The location of the pin (needle).
@@ -613,6 +713,22 @@ abstract class _CompassState implements CompassState {
   /// The currently selected color for the drawing pen.
   @override
   Color get penColor;
+
+  /// The currently selected thickness for the drawing pen.
+  @override
+  double get penWidth;
+
+  /// Whether the app is in pencil freehand drawing mode.
+  @override
+  bool get isPencilMode;
+
+  /// Whether the app is in straight line drawing mode (horizontal/vertical).
+  @override
+  bool get isLineMode;
+
+  /// Whether the app is in free angle straight line drawing mode.
+  @override
+  bool get isFreeLineMode;
 
   /// Create a copy of CompassState
   /// with the given fields replaced by the non-null parameter values.

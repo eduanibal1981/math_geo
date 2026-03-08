@@ -6,7 +6,7 @@ part of 'compass_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$compassControllerHash() => r'349d2088d9a447767615421a836af3ff79b968d7';
+String _$compassControllerHash() => r'8f66a14b4943def87af3c6c5c5ef9708c85c234a';
 
 /// See also [CompassController].
 @ProviderFor(CompassController)
