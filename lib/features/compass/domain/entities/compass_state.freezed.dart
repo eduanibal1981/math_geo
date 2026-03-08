@@ -246,6 +246,9 @@ mixin _$CompassState {
   /// Whether the app is in free angle straight line drawing mode.
   bool get isFreeLineMode => throw _privateConstructorUsedError;
 
+  /// Whether the compass tool itself is visible on the canvas.
+  bool get isCompassVisible => throw _privateConstructorUsedError;
+
   /// Create a copy of CompassState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -274,6 +277,7 @@ abstract class $CompassStateCopyWith<$Res> {
     bool isPencilMode,
     bool isLineMode,
     bool isFreeLineMode,
+    bool isCompassVisible,
   });
 
   $DrawnStrokeCopyWith<$Res>? get currentStroke;
@@ -307,6 +311,7 @@ class _$CompassStateCopyWithImpl<$Res, $Val extends CompassState>
     Object? isPencilMode = null,
     Object? isLineMode = null,
     Object? isFreeLineMode = null,
+    Object? isCompassVisible = null,
   }) {
     return _then(
       _value.copyWith(
@@ -362,6 +367,10 @@ class _$CompassStateCopyWithImpl<$Res, $Val extends CompassState>
                 ? _value.isFreeLineMode
                 : isFreeLineMode // ignore: cast_nullable_to_non_nullable
                       as bool,
+            isCompassVisible: null == isCompassVisible
+                ? _value.isCompassVisible
+                : isCompassVisible // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -405,6 +414,7 @@ abstract class _$$CompassStateImplCopyWith<$Res>
     bool isPencilMode,
     bool isLineMode,
     bool isFreeLineMode,
+    bool isCompassVisible,
   });
 
   @override
@@ -438,6 +448,7 @@ class __$$CompassStateImplCopyWithImpl<$Res>
     Object? isPencilMode = null,
     Object? isLineMode = null,
     Object? isFreeLineMode = null,
+    Object? isCompassVisible = null,
   }) {
     return _then(
       _$CompassStateImpl(
@@ -493,6 +504,10 @@ class __$$CompassStateImplCopyWithImpl<$Res>
             ? _value.isFreeLineMode
             : isFreeLineMode // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isCompassVisible: null == isCompassVisible
+            ? _value.isCompassVisible
+            : isCompassVisible // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -515,6 +530,7 @@ class _$CompassStateImpl implements _CompassState {
     this.isPencilMode = false,
     this.isLineMode = false,
     this.isFreeLineMode = false,
+    this.isCompassVisible = false,
   }) : _completedStrokes = completedStrokes,
        _undoneStrokes = undoneStrokes;
 
@@ -594,9 +610,14 @@ class _$CompassStateImpl implements _CompassState {
   @JsonKey()
   final bool isFreeLineMode;
 
+  /// Whether the compass tool itself is visible on the canvas.
+  @override
+  @JsonKey()
+  final bool isCompassVisible;
+
   @override
   String toString() {
-    return 'CompassState(pinPoint: $pinPoint, radius: $radius, toolScale: $toolScale, angle: $angle, isDrawing: $isDrawing, completedStrokes: $completedStrokes, undoneStrokes: $undoneStrokes, currentStroke: $currentStroke, penColor: $penColor, penWidth: $penWidth, isPencilMode: $isPencilMode, isLineMode: $isLineMode, isFreeLineMode: $isFreeLineMode)';
+    return 'CompassState(pinPoint: $pinPoint, radius: $radius, toolScale: $toolScale, angle: $angle, isDrawing: $isDrawing, completedStrokes: $completedStrokes, undoneStrokes: $undoneStrokes, currentStroke: $currentStroke, penColor: $penColor, penWidth: $penWidth, isPencilMode: $isPencilMode, isLineMode: $isLineMode, isFreeLineMode: $isFreeLineMode, isCompassVisible: $isCompassVisible)';
   }
 
   @override
@@ -631,7 +652,9 @@ class _$CompassStateImpl implements _CompassState {
             (identical(other.isLineMode, isLineMode) ||
                 other.isLineMode == isLineMode) &&
             (identical(other.isFreeLineMode, isFreeLineMode) ||
-                other.isFreeLineMode == isFreeLineMode));
+                other.isFreeLineMode == isFreeLineMode) &&
+            (identical(other.isCompassVisible, isCompassVisible) ||
+                other.isCompassVisible == isCompassVisible));
   }
 
   @override
@@ -650,6 +673,7 @@ class _$CompassStateImpl implements _CompassState {
     isPencilMode,
     isLineMode,
     isFreeLineMode,
+    isCompassVisible,
   );
 
   /// Create a copy of CompassState
@@ -676,6 +700,7 @@ abstract class _CompassState implements CompassState {
     final bool isPencilMode,
     final bool isLineMode,
     final bool isFreeLineMode,
+    final bool isCompassVisible,
   }) = _$CompassStateImpl;
 
   /// The location of the pin (needle).
@@ -729,6 +754,10 @@ abstract class _CompassState implements CompassState {
   /// Whether the app is in free angle straight line drawing mode.
   @override
   bool get isFreeLineMode;
+
+  /// Whether the compass tool itself is visible on the canvas.
+  @override
+  bool get isCompassVisible;
 
   /// Create a copy of CompassState
   /// with the given fields replaced by the non-null parameter values.

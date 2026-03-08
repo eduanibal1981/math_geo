@@ -76,6 +76,8 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                 _addTool(const ProtractorWidget());
               } else if (value == 'setsquare') {
                 _addTool(const SetSquareWidget());
+              } else if (value == 'compass') {
+                ref.read(compassControllerProvider.notifier).toggleCompassVisible();
               }
             },
             itemBuilder: (context) => [
@@ -90,6 +92,10 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
               const PopupMenuItem(
                 value: 'setsquare',
                 child: Text('Add Set Square'),
+              ),
+              PopupMenuItem(
+                value: 'compass',
+                child: Text(compassState.isCompassVisible ? 'Remove Compass' : 'Add Compass'),
               ),
             ],
           ),
@@ -153,17 +159,18 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       body: Stack(
         children: [
           // The interactive drawing area
-          Positioned.fill(
-            child: GestureDetector(
-              onPanStart: (details) => _onPanStart(details, compassState),
-              onPanUpdate: _onPanUpdate,
-              onPanEnd: _onPanEnd,
-              child: CustomPaint(
-                painter: CompassPainter(state: compassState),
-                size: Size.infinite,
+          if (compassState.isCompassVisible)
+            Positioned.fill(
+              child: GestureDetector(
+                onPanStart: (details) => _onPanStart(details, compassState),
+                onPanUpdate: _onPanUpdate,
+                onPanEnd: _onPanEnd,
+                child: CustomPaint(
+                  painter: CompassPainter(state: compassState),
+                  size: Size.infinite,
+                ),
               ),
             ),
-          ),
 
           // Add active draggable tools overlay on top of compass area
           ..._activeTools.map((t) => DraggableRotatableTool(
@@ -286,25 +293,27 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                       ),
                       if (_isPanelExpanded) ...[
                         const SizedBox(height: 12),
-                    const Text(
-                      'Radius Length',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${radiusInCm.toStringAsFixed(1)} cm',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Pen Color',
+                        if (compassState.isCompassVisible) ...[
+                          const Text(
+                            'Radius Length',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${radiusInCm.toStringAsFixed(1)} cm',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        const Text(
+                          'Pen Color',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -393,52 +402,54 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Tool Size',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.compress,
-                          size: 16,
+                    if (compassState.isCompassVisible) ...[
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Tool Size',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                           color: Colors.grey,
                         ),
-                        SizedBox(
-                          width: 150,
-                          child: Slider(
-                            value: compassState.toolScale,
-                            min: 0.5,
-                            max: 1.0,
-                            divisions: 2,
-                            label: '${(compassState.toolScale * 100).toInt()}%',
-                            onChanged: (value) {
-                              final double maxCm = value * 40.0;
-                              final double minCm = value == 0.75 ? 1.0 : 0.5;
-                              final double pixelsPer20Cm = math.max(
-                                math.min(size.width, size.height) * 0.45,
-                                150.0,
-                              );
-                              final double pixelsPerCm = pixelsPer20Cm / 20.0;
-                              ref
-                                  .read(compassControllerProvider.notifier)
-                                  .updateToolScale(
-                                    value,
-                                    minCm * pixelsPerCm,
-                                    maxCm * pixelsPerCm,
-                                  );
-                            },
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.compress,
+                            size: 16,
+                            color: Colors.grey,
                           ),
-                        ),
-                        const Icon(Icons.expand, size: 16, color: Colors.grey),
-                      ],
-                    ),
+                          SizedBox(
+                            width: 150,
+                            child: Slider(
+                              value: compassState.toolScale,
+                              min: 0.5,
+                              max: 1.0,
+                              divisions: 2,
+                              label: '${(compassState.toolScale * 100).toInt()}%',
+                              onChanged: (value) {
+                                final double maxCm = value * 40.0;
+                                final double minCm = value == 0.75 ? 1.0 : 0.5;
+                                final double pixelsPer20Cm = math.max(
+                                  math.min(size.width, size.height) * 0.45,
+                                  150.0,
+                                );
+                                final double pixelsPerCm = pixelsPer20Cm / 20.0;
+                                ref
+                                    .read(compassControllerProvider.notifier)
+                                    .updateToolScale(
+                                      value,
+                                      minCm * pixelsPerCm,
+                                      maxCm * pixelsPerCm,
+                                    );
+                              },
+                            ),
+                          ),
+                          const Icon(Icons.expand, size: 16, color: Colors.grey),
+                        ],
+                      ),
+                    ],
                   ],
                 ],
               ),

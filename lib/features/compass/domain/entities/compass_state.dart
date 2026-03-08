@@ -54,5 +54,8 @@ class CompassState with _$CompassState {
 
     /// Whether the app is in free angle straight line drawing mode.
     @Default(false) bool isFreeLineMode,
+
+    /// Whether the compass tool itself is visible on the canvas.
+    @Default(false) bool isCompassVisible,
   }) = _CompassState;
 }

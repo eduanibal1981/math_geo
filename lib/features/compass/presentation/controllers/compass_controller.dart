@@ -137,6 +137,16 @@ class CompassController extends _$CompassController {
     );
   }
 
+  /// Toggles the visibility of the compass tool.
+  void toggleCompassVisible() {
+    state = state.copyWith(
+      isCompassVisible: !state.isCompassVisible,
+      isPencilMode: false,
+      isLineMode: false,
+      isFreeLineMode: false,
+    );
+  }
+
   /// Toggles between pencil (freehand) mode and compass mode.
   void togglePencilMode() {
     state = state.copyWith(
